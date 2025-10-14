@@ -1,8 +1,12 @@
+import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 import React from "react";
 import { CgSearch } from "react-icons/cg";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
+  const [isScrolled, setIsScrolled] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const navigate = useNavigate();
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Hotels", path: "/rooms" },
@@ -10,8 +14,8 @@ const NavBar = () => {
     { name: "About", path: "/" },
   ];
 
-  const [isScrolled, setIsScrolled] = React.useState(false);
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { openSignIn } = useClerk();
+  const { user } = useUser();
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -50,6 +54,7 @@ const NavBar = () => {
             </a>
           ))}
           <button
+            onClick={() => navigate("owner")}
             className={`cursor-pointer rounded-full border px-4 py-1 text-sm font-light ${isScrolled ? "text-black" : "text-white"} transition-all`}
           >
             Dashboard
@@ -61,15 +66,43 @@ const NavBar = () => {
           <CgSearch
             className={`h-6 w-6 text-white ${isScrolled && "invert"}`}
           />
-          <button
-            className={`ml-4 rounded-full px-8 py-2.5 transition-all duration-500 ${isScrolled ? "bg-black text-white" : "bg-white text-black"}`}
-          >
-            Login
-          </button>
+
+          {/* user */}
+          {user ? (
+            <UserButton>
+              <UserButton.MenuItems>
+                <UserButton.Action
+                  label="My Bookings"
+                  labelIcon={<BookIconn />}
+                  onClick={() => navigate("/")}
+                />
+              </UserButton.MenuItems>
+            </UserButton>
+          ) : (
+            <button
+              onClick={openSignIn}
+              className={`ml-4 cursor-pointer rounded-full px-8 py-2.5 transition-all duration-500 ${isScrolled ? "bg-black text-white" : "bg-white text-black"}`}
+            >
+              Login
+            </button>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
+
         <div className="flex items-center gap-3 md:hidden">
+          {user && (
+            <UserButton>
+              <UserButton.MenuItems>
+                <UserButton.Action
+                  label="My Bookings"
+                  labelIcon={<BookIconn />}
+                  onClick={() => navigate("/")}
+                />
+              </UserButton.MenuItems>
+            </UserButton>
+          )}
+
           <svg
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className={`h-6 w-6 cursor-pointer text-white ${isScrolled ? "invert" : ""}`}
@@ -110,13 +143,23 @@ const NavBar = () => {
             </a>
           ))}
 
-          <button className="cursor-pointer rounded-full border px-4 py-1 text-sm font-light transition-all">
-            Dashboard
-          </button>
+          {user && (
+            <button
+              onClick={() => navigate("owner")}
+              className="cursor-pointer rounded-full border px-4 py-1 text-sm font-light transition-all"
+            >
+              Dashboard
+            </button>
+          )}
 
-          <button className="rounded-full bg-black px-8 py-2.5 text-white transition-all duration-500">
-            Login
-          </button>
+          {!user && (
+            <button
+              onClick={openSignIn}
+              className="rounded-full bg-black px-8 py-2.5 text-white transition-all duration-500"
+            >
+              Login
+            </button>
+          )}
         </div>
       </nav>
     </div>
