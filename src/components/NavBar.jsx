@@ -1,23 +1,25 @@
 import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
-import React from "react";
+import { useEffect, useState } from "react";
 import { CgSearch } from "react-icons/cg";
 import { NavLink, useNavigate } from "react-router-dom";
 
+const navLinks = [
+  { name: "Home", path: "/" },
+  { name: "Hotels", path: "/rooms" },
+  { name: "Experience", path: "/" },
+  { name: "About", path: "/" },
+];
+
 const NavBar = () => {
-  const [isScrolled, setIsScrolled] = React.useState(false);
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const navigate = useNavigate();
-  const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Hotels", path: "/rooms" },
-    { name: "Experience", path: "/" },
-    { name: "About", path: "/" },
-  ];
 
   const { openSignIn } = useClerk();
   const { user } = useUser();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
@@ -28,13 +30,13 @@ const NavBar = () => {
   return (
     <div className="">
       <nav
-        className={`fixed top-0 left-0 z-50 flex w-full items-center justify-between px-4 transition-all duration-500 md:px-16 lg:px-24 xl:px-32 ${isScrolled ? "bg-white/50 py-3 text-gray-700 shadow-md backdrop-blur-lg md:py-4" : "py-4 md:py-6"}`}
+        className={`bg-primary/30 fixed top-0 left-0 z-50 flex w-full items-center justify-between px-4 transition-all duration-500 md:px-16 lg:px-24 xl:px-32 ${isScrolled ? "bg-white/50 py-3 text-gray-700 shadow-md backdrop-blur-lg md:py-4" : "py-4 md:py-6"}`}
       >
         {/* Logo */}
         <NavLink to="/" className="flex items-center justify-center gap-2">
           <img
             className={`h-12 w-12 rounded-full object-center ${isScrolled && "opacity-90 invert"}`}
-            src="/ChatGPT Image Oct 12, 2025, 06_14_28 PM.png"
+            src="/logo.png"
             alt=""
           />
         </NavLink>
