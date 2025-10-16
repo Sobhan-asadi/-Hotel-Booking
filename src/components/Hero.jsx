@@ -1,5 +1,7 @@
 import BookingSearchForm from "./BookingSearchForm";
+import ExclusiveOffers from "./ExclusiveOffers";
 import FeaturedHotels from "./FeaturedHotels";
+import Title from "./Title";
 
 export default function Hero() {
   return (
@@ -18,8 +20,17 @@ export default function Hero() {
         <BookingSearchForm />
       </div>
 
+      <Title
+        title="Featired Destination"
+        subTitle="Discover our selection of exceptional properties around the world, offering unparalleled luxury and unforgettable experiences."
+      />
+
       <section className="mx-auto mt-20 grid grid-cols-1 items-center justify-center gap-x-4 gap-y-7 px-6 md:grid-cols-3 md:px-16 lg:grid-cols-4 lg:px-24 xl:px-32">
         <FeaturedHotels />
+      </section>
+
+      <section>
+        <ExclusiveOffers />
       </section>
     </>
   );

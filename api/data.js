@@ -108,7 +108,46 @@ const hotels = [
     tag: "",
     description: "Luxurious stay with desert views",
     features: ["Pool", "Spa", "Free Parking"]
-  }
+  },
+  {
+    id: 11,
+    name: "Desert Oasis",
+    location: "Dubai",
+    rating: 4.4,
+    pricePerNight: 480,
+    image: "/images/hotel3.jpg",
+    tag: "",
+    description: "Luxurious stay with desert views",
+    features: ["Pool", "Spa", "Free Parking"]
+  },
+];
+
+export const discountData = [
+  {
+    id: 1,
+    image: "/images/discount1.jpg",
+    priceoff: 30,
+    title: "Summer Collection",
+    description: "Trendy outfits for the sunny season.",
+    expiryDate: "Oct 31, 2025",
+  },
+  {
+    id: 2,
+    image: "/images/discount2.jpg",
+    priceoff: 50,
+    title: "Tech Sale",
+    description: "Latest gadgets at half price.",
+    expiryDate: "Nov 10, 2025",
+  },
+  {
+    id: 3,
+    image: "/images/discount3.jpg",
+    priceoff: 25,
+    title: "Home Essentials",
+    description: "Upgrade your living space with discounts.",
+    expiryDate: "Oct 25, 2025",
+  },
+
 ];
 
 export default hotels;

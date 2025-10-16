@@ -14,7 +14,7 @@ export default function FeaturedHotels() {
             key={hotel.id}
             className="relative mx-auto max-w-80 overflow-hidden rounded-xl bg-white text-gray-500/90 shadow-[0px_4px_4px_rgba(0,0,0,0.5)]"
           >
-            <Link className="" key={hotel.id} to={`roomdetails-${hotel.name}`}>
+            <Link className="" key={hotel.id} to={`${hotel.name}`}>
               <img
                 src={hotel.image}
                 alt={hotel.name}
@@ -47,7 +47,7 @@ export default function FeaturedHotels() {
                     /Nigt
                   </p>
                   <button className="mt-4 w-full cursor-pointer rounded-md border border-b-gray-300 px-4 py-2 text-sm font-medium transition-all hover:bg-gray-100 hover:text-gray-500 md:mt-0">
-                    Book Now
+                    View room details
                   </button>
                 </div>
               </div>
