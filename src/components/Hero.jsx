@@ -1,6 +1,9 @@
 import BookingSearchForm from "./BookingSearchForm";
 import ExclusiveOffers from "./ExclusiveOffers";
 import FeaturedHotels from "./FeaturedHotels";
+import Footer from "./Footer";
+import NewsLetter from "./NewsLetter";
+import Testimonial from "./Testimonial";
 import Title from "./Title";
 
 export default function Hero() {
@@ -20,10 +23,15 @@ export default function Hero() {
         <BookingSearchForm />
       </div>
 
-      <Title
-        title="Featired Destination"
-        subTitle="Discover our selection of exceptional properties around the world, offering unparalleled luxury and unforgettable experiences."
-      />
+      <div className="flex flex-col items-center px-6 md:px-16 lg:px-24 xl:px-32">
+        <div className="flex w-full flex-col items-center justify-between md:flex-row">
+          <Title
+            align="left"
+            title="Featired Destination"
+            subTitle="Discover our selection of exceptional properties around the world, offering unparalleled luxury and unforgettable experiences."
+          />
+        </div>
+      </div>
 
       <section className="mx-auto mt-20 grid grid-cols-1 items-center justify-center gap-x-4 gap-y-7 px-6 md:grid-cols-3 md:px-16 lg:grid-cols-4 lg:px-24 xl:px-32">
         <FeaturedHotels />
@@ -32,6 +40,17 @@ export default function Hero() {
       <section>
         <ExclusiveOffers />
       </section>
+
+      <section className="">
+        <Testimonial />
+      </section>
+
+      <section className="">
+        <NewsLetter />
+      </section>
+
+      {/* Footer */}
+      <Footer />
     </>
   );
 }

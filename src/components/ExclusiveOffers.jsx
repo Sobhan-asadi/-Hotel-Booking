@@ -4,7 +4,7 @@ import Title from "./Title";
 
 export default function ExclusiveOffers() {
   return (
-    <div className="flex flex-col items-center px-6 pt-20 pb-32 md:px-16 lg:px-24 xl:px-32">
+    <div className="mt-10 flex flex-col items-center bg-slate-50 px-6 pt-20 pb-32 md:mt-20 md:px-16 lg:px-24 xl:px-32">
       <div className="flex w-full flex-col items-center justify-between md:flex-row">
         <Title
           align="left"
