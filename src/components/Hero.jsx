@@ -1,7 +1,6 @@
 import BookingSearchForm from "./BookingSearchForm";
 import ExclusiveOffers from "./ExclusiveOffers";
 import FeaturedHotels from "./FeaturedHotels";
-import Footer from "./Footer";
 import NewsLetter from "./NewsLetter";
 import Testimonial from "./Testimonial";
 import Title from "./Title";
@@ -48,9 +47,6 @@ export default function Hero() {
       <section className="">
         <NewsLetter />
       </section>
-
-      {/* Footer */}
-      <Footer />
     </>
   );
 }
