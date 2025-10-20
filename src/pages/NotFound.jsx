@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+
 export default function NotFound() {
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-black py-20 text-sm max-md:px-4">
