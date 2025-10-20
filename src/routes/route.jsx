@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
+import AllroomsPage from "../pages/AllroomsPage";
 import ErrorPage from "../pages/ErrorPage";
 import HomePage from "../pages/HomePage";
 import LayoutPage from "../pages/LayoutPage";
@@ -13,6 +14,7 @@ const routes = createBrowserRouter([
     element: <LayoutPage />,
     children: [
       { index: true, element: <HomePage /> },
+      { path: "rooms", element: <AllroomsPage /> },
       { path: "details/:name", element: <RoomDetails /> },
     ],
   },
