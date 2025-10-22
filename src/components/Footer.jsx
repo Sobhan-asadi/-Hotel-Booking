@@ -24,7 +24,7 @@ export default function Footer() {
               </a>
               <a className="transition hover:text-slate-600" href="#">
                 Careers
-                <span className="ml-2 rounded-md bg-indigo-600 px-2 py-1 text-xs text-white">
+                <span className="ml-2 rounded-md border bg-gray-500 px-2 py-1 text-xs text-white">
                   We’re hiring!
                 </span>
               </a>
@@ -45,13 +45,13 @@ export default function Footer() {
                 The latest news, articles, and resources, sent to your inbox
                 weekly.
               </p>
-              <div className="flex items-center justify-center gap-2 rounded-md bg-indigo-50 p-2">
+              <div className="flex items-center justify-center gap-2 rounded-md bg-gray-200 p-2">
                 <input
-                  className="w-full max-w-64 rounded px-2 py-2 ring-indigo-600 outline-none focus:ring-2"
+                  className="w-full max-w-64 rounded px-2 py-2 ring-gray-300 outline-none focus:ring-2"
                   type="email"
                   placeholder="Enter your email"
                 />
-                <button className="rounded bg-indigo-600 px-4 py-2 text-white">
+                <button className="rounded bg-gray-700 px-4 py-2 text-white">
                   Subscribe
                 </button>
               </div>
