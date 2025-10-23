@@ -1,8 +1,5 @@
-import { useParams } from "react-router-dom";
+import Details from "../components/Details/Details";
 
 export default function RoomDetails() {
-  let params = useParams();
-  console.log(params.name);
-
-  return <div className="">RoomDetails</div>;
+  return <Details />;
 }

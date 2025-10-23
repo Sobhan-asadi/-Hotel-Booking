@@ -1,4 +1,3 @@
-// import { IoMdStarOutline } from "react-icons/io";
 import { IoMdStar } from "react-icons/io";
 
 import { IoLocationOutline } from "react-icons/io5";
