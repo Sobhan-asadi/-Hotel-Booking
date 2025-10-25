@@ -16,6 +16,8 @@ export default function ROOMHIGHLIGHTS({ room }) {
           ))}
         </div>
       </div>
+      {/* ROOM Price */}
+      <p className="text-2xl font-medium">${room?.pricePerNight}/night</p>
     </div>
   );
 }

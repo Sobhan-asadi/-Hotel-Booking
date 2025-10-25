@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import hotels from "../../../api/data";
+import DetailsFoorm from "./DetailsFoorm";
 import ROOMADDRESS from "./ROOMADDRESS";
 import RoomDetails from "./RoomDetails";
 import ROOMHIGHLIGHTS from "./ROOMHIGHLIGHTS";
@@ -30,8 +31,8 @@ export default function Details() {
       <ROOMIMAGES room={room} />
       {/* ROOM HIGHLIGHTS */}
       <ROOMHIGHLIGHTS room={room} />
-      {/* ROOM Price */}
-      <p className="text-2xl font-medium">${room?.pricePerNight}/night</p>
+      {/* check in  */}
+      <DetailsFoorm />
     </div>
   );
 }
