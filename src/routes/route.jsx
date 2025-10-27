@@ -4,6 +4,7 @@ import AllroomsPage from "../pages/AllroomsPage";
 import ErrorPage from "../pages/ErrorPage";
 import HomePage from "../pages/HomePage";
 import LayoutPage from "../pages/LayoutPage";
+import MyBookings from "../pages/MyBookings";
 import NotFound from "../pages/NotFound";
 import RoomDetails from "../pages/RoomDetails";
 
@@ -16,6 +17,7 @@ const routes = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: "rooms", element: <AllroomsPage /> },
       { path: "/:name", element: <RoomDetails /> },
+      { path: "/:name/mybookings", element: <MyBookings /> },
     ],
   },
   { path: "*", element: <NotFound /> },

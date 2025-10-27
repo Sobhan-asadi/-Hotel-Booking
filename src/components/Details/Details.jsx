@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { useLocation } from "react-router-dom";
 import hotels from "../../../api/data";
 import DetailsFoorm from "./DetailsFoorm";
 import ROOMADDRESS from "./ROOMADDRESS";
@@ -10,14 +11,19 @@ import ROOMIMAGES from "./ROOMIMAGES";
 import ROOMRAITING from "./ROOMRAITING";
 
 export default function Details() {
-  let { name } = useParams();
   const [room, setRoom] = useState(null);
+
+  const { pathname } = useLocation();
+  let { name } = useParams();
 
   useEffect(() => {
     const room = hotels.filter((room) => room.name === name);
     setRoom(room[0]);
   }, [name]);
-  console.log(room);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <div className="px-4 py-28 md:px-16 md:py-35 lg:px-24 xl:px-32">

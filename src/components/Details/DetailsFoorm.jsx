@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import {
   HiHeart,
   HiHome,
@@ -77,9 +79,12 @@ export default function DetailsFoorm() {
           </div>
         </div>
 
-        <button className="bg-primary hover:bg-primary/90 cursor-pointer rounded-md py-3 text-base text-white transition-all active:scale-95 max-md:mt-6 max-md:w-full md:px-25 md:py-4">
+        <Link
+          to="mybookings"
+          className="bg-primary hover:bg-primary/90 cursor-pointer rounded-md py-3 text-base text-white transition-all active:scale-95 max-md:mt-6 max-md:w-full md:px-25 md:py-4"
+        >
           Book Now
-        </button>
+        </Link>
       </form>
       {/* Common Specifications */}
       <div className="mt-24 space-y-4">
