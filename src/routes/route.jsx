@@ -7,6 +7,10 @@ import LayoutPage from "../pages/LayoutPage";
 import MyBookings from "../pages/MyBookings";
 import NotFound from "../pages/NotFound";
 import RoomDetails from "../pages/RoomDetails";
+import AddRoomPage from "../pages/hotelOwnerPage/AddRoomPage";
+import Dashboard from "../pages/hotelOwnerPage/Dashboard";
+import DashbordLayout from "../pages/hotelOwnerPage/DashbordLayout";
+import ListRoomPage from "../pages/hotelOwnerPage/ListRoomPage";
 
 const routes = createBrowserRouter([
   {
@@ -18,6 +22,16 @@ const routes = createBrowserRouter([
       { path: "rooms", element: <AllroomsPage /> },
       { path: "/:name", element: <RoomDetails /> },
       { path: "/:name/mybookings", element: <MyBookings /> },
+    ],
+  },
+  // DashbordLayout
+  {
+    path: "owner",
+    element: <DashbordLayout />,
+    children: [
+      { index: true, element: <Dashboard /> },
+      { path: "add-room", element: <AddRoomPage /> },
+      { path: "list-room", element: <ListRoomPage /> },
     ],
   },
   { path: "*", element: <NotFound /> },

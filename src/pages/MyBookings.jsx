@@ -28,7 +28,7 @@ export default function MyBookings() {
         </div>
       </div>
 
-      {hotels.map((booking) => (
+      {hotels.map((booking, index) => (
         <div
           className="grid w-full grid-cols-1 border-b border-gray-300 py-6 first:border-t md:grid-cols-[3fr_2fr_1fr]"
           key={booking.id}
@@ -50,9 +50,34 @@ export default function MyBookings() {
             </div>
           </div>
           {/* Date timings */}
-          <div className=""></div>
+          <div className="mt-3 flex flex-row gap-8 md:items-center md:gap-12">
+            <div className="">
+              <p className="">Check-In</p>
+              <p className="text-sm text-gray-600">
+                {new Date().toDateString()}
+              </p>
+            </div>
+
+            <div className="">
+              <p className="">Check-Out</p>
+              <p className="text-sm text-gray-600">
+                {new Date(
+                  new Date().setDate(new Date().getDate() + index),
+                ).toDateString()}
+              </p>
+            </div>
+          </div>
+
           {/* Payent status */}
-          <div className=""></div>
+          <div className="flex flex-col items-start justify-center pt-3">
+            <div className="flex items-center gap-2">
+              <div className={`h-3 w-3 rounded-full bg-red-500`}></div>
+              <p className="text-sm text-red-500">Unpaid</p>
+            </div>
+            <button className="mt-4 cursor-pointer rounded-full border border-gray-400 px-4 py-1.5 text-sm transition-all hover:bg-gray-50">
+              Pay Now
+            </button>
+          </div>
         </div>
       ))}
     </div>

@@ -81,7 +81,7 @@ export default function DetailsFoorm() {
 
         <Link
           to="mybookings"
-          className="bg-primary hover:bg-primary/90 cursor-pointer rounded-md py-3 text-base text-white transition-all active:scale-95 max-md:mt-6 max-md:w-full md:px-25 md:py-4"
+          className="bg-primary hover:bg-primary/90 cursor-pointer rounded-md py-3 text-center text-base text-white transition-all active:scale-95 max-md:mt-6 max-md:w-full md:px-25 md:py-4"
         >
           Book Now
         </Link>
