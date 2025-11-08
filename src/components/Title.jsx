@@ -1,7 +1,7 @@
 export default function Title({ align, title, subTitle, font }) {
   return (
     <div
-      className={`flex flex-col items-center justify-center text-center ${align === "left" && "md:items-start md:text-left"}`}
+      className={`mt-16 flex flex-col items-center justify-center text-center ${align === "left" && "md:items-start md:text-left"}`}
     >
       <h1 className={`text-2xl md:text-[40px] ${font || "font-playfair"}`}>
         {title}
