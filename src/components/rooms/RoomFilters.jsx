@@ -1,8 +1,16 @@
-import { HiOutlineAdjustments } from "react-icons/hi";
+import {
+  HiChevronDown,
+  HiOutlineAdjustments,
+  HiOutlineRefresh,
+} from "react-icons/hi";
 
 const roomTypes = ["Single bed", "Double Bed", "Luxury Room", "Family Suite"];
 
 const priceRanges = [
+  {
+    label: "Any price",
+    value: "all",
+  },
   {
     label: "Under $300",
     value: "under-300",
@@ -44,8 +52,6 @@ export default function RoomFilters({
   selectedTypes,
   selectedPrice,
   sortBy,
-  openFilters,
-  onToggleFilters,
   onTypeChange,
   onPriceChange,
   onSortChange,
@@ -57,128 +63,114 @@ export default function RoomFilters({
     sortBy !== "recommended";
 
   return (
-    <aside className="w-full lg:sticky lg:top-28 lg:w-[290px] lg:shrink-0">
-      <div className="border-primary-900/[0.08] overflow-hidden rounded-[24px] border bg-white shadow-[0_8px_30px_rgba(20,40,32,0.05)]">
-        <div className="border-primary-900/[0.07] flex min-h-16 items-center justify-between border-b px-5">
-          <div className="flex items-center gap-2.5">
-            <HiOutlineAdjustments
-              aria-hidden="true"
-              className="text-primary-700 text-lg"
-            />
+    <div className="space-y-5">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex items-center gap-2">
+          <HiOutlineAdjustments
+            aria-hidden="true"
+            className="text-primary-700 text-lg"
+          />
 
-            <p className="text-primary-950 text-sm font-semibold">Filters</p>
-          </div>
+          <p className="text-primary-950 text-sm font-semibold">
+            Refine your search
+          </p>
+        </div>
 
-          <div className="flex items-center gap-4">
-            {hasActiveFilters && (
-              <button
-                type="button"
-                onClick={onClear}
-                className="text-accent-700 hover:text-accent-900 text-xs font-semibold transition-colors"
-              >
-                Clear
-              </button>
-            )}
-
+        <div className="flex items-center gap-3">
+          {hasActiveFilters && (
             <button
               type="button"
-              onClick={onToggleFilters}
-              aria-expanded={openFilters}
-              className="text-primary-700 text-xs font-semibold lg:hidden"
+              onClick={onClear}
+              className="hover:text-primary-900 flex min-h-10 items-center gap-2 rounded-full px-3 text-xs font-semibold text-zinc-500 transition-colors"
             >
-              {openFilters ? "Hide" : "Show"}
+              <HiOutlineRefresh aria-hidden="true" className="text-base" />
+              Reset
             </button>
+          )}
+
+          <div className="relative">
+            <select
+              aria-label="Sort rooms"
+              value={sortBy}
+              onChange={(event) => onSortChange(event.target.value)}
+              className="border-primary-900/[0.1] text-primary-950 focus:border-primary-700 min-h-11 appearance-none rounded-full border bg-white py-2 pr-10 pl-4 text-xs font-semibold transition outline-none"
+            >
+              {sortOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <HiChevronDown
+              aria-hidden="true"
+              className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-sm text-zinc-400"
+            />
           </div>
         </div>
+      </div>
 
-        <div className={`${openFilters ? "block" : "hidden lg:block"}`}>
-          <FilterGroup title="Room type">
-            <div className="space-y-3">
-              {roomTypes.map((type) => (
-                <label
-                  key={type}
-                  className="group flex cursor-pointer items-center gap-3"
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedTypes.includes(type)}
-                    onChange={() => onTypeChange(type)}
-                    className="accent-primary-800 h-4 w-4 cursor-pointer"
-                  />
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+        <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+          <button
+            type="button"
+            onClick={() => {
+              selectedTypes.forEach((type) => onTypeChange(type));
+            }}
+            className={`min-h-11 shrink-0 rounded-full border px-4 text-xs font-semibold transition ${
+              selectedTypes.length === 0
+                ? "border-primary-900 bg-primary-900 text-white"
+                : "border-primary-900/[0.1] text-primary-800 hover:border-primary-900/30 bg-white"
+            }`}
+          >
+            All stays
+          </button>
 
-                  <span className="group-hover:text-primary-950 text-sm text-zinc-600 transition-colors">
-                    {type}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </FilterGroup>
+          {roomTypes.map((type) => {
+            const isSelected = selectedTypes.includes(type);
 
-          <FilterGroup title="Price per night">
-            <div className="space-y-3">
-              {priceRanges.map((range) => (
-                <label
-                  key={range.value}
-                  className="group flex cursor-pointer items-center gap-3"
-                >
-                  <input
-                    type="radio"
-                    name="price-range"
-                    value={range.value}
-                    checked={selectedPrice === range.value}
-                    onChange={() => onPriceChange(range.value)}
-                    className="accent-primary-800 h-4 w-4 cursor-pointer"
-                  />
+            return (
+              <button
+                key={type}
+                type="button"
+                aria-pressed={isSelected}
+                onClick={() => onTypeChange(type)}
+                className={`min-h-11 shrink-0 rounded-full border px-4 text-xs font-semibold transition ${
+                  isSelected
+                    ? "border-primary-900 bg-primary-900 text-white"
+                    : "border-primary-900/[0.1] text-primary-800 hover:border-primary-900/30 bg-white"
+                }`}
+              >
+                {type}
+              </button>
+            );
+          })}
+        </div>
 
-                  <span className="group-hover:text-primary-950 text-sm text-zinc-600 transition-colors">
-                    {range.label}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </FilterGroup>
+        <div className="relative shrink-0">
+          <label htmlFor="room-price-filter" className="sr-only">
+            Price per night
+          </label>
 
-          <FilterGroup title="Sort by" last>
-            <div className="space-y-3">
-              {sortOptions.map((option) => (
-                <label
-                  key={option.value}
-                  className="group flex cursor-pointer items-center gap-3"
-                >
-                  <input
-                    type="radio"
-                    name="sort-by"
-                    value={option.value}
-                    checked={sortBy === option.value}
-                    onChange={() => onSortChange(option.value)}
-                    className="accent-primary-800 h-4 w-4 cursor-pointer"
-                  />
+          <select
+            id="room-price-filter"
+            value={selectedPrice}
+            onChange={(event) => onPriceChange(event.target.value)}
+            className="border-primary-900/[0.1] text-primary-800 focus:border-primary-700 min-h-11 w-full appearance-none rounded-full border bg-white py-2 pr-10 pl-4 text-xs font-semibold transition outline-none sm:w-auto"
+          >
+            {priceRanges.map((range) => (
+              <option key={range.value} value={range.value}>
+                {range.label}
+              </option>
+            ))}
+          </select>
 
-                  <span className="group-hover:text-primary-950 text-sm text-zinc-600 transition-colors">
-                    {option.label}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </FilterGroup>
+          <HiChevronDown
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-sm text-zinc-400"
+          />
         </div>
       </div>
-    </aside>
-  );
-}
-
-function FilterGroup({ title, children, last = false }) {
-  return (
-    <div
-      className={`px-5 py-6 ${
-        last ? "" : "border-primary-900/[0.07] border-b"
-      }`}
-    >
-      <h3 className="text-primary-950 mb-4 text-[11px] font-bold tracking-[0.14em] uppercase">
-        {title}
-      </h3>
-
-      {children}
     </div>
   );
 }

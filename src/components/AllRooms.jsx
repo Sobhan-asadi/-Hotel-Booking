@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import hotels from "../../api/data";
@@ -6,25 +6,16 @@ import EmptyRoomsState from "./rooms/EmptyRoomsState";
 import RoomCard from "./rooms/RoomCard";
 import RoomFilters from "./rooms/RoomFilters";
 import RoomsHeader from "./rooms/RoomsHeader";
+import RoomsPagination from "./rooms/RoomsPagination";
 
-function getRoomType(room) {
-  if (room.type) {
-    return room.type;
-  }
+const DEFAULT_SORT = "recommended";
+const ROOMS_PER_PAGE = 6;
 
-  if (room.pricePerNight >= 500) {
-    return "Luxury Room";
-  }
-
-  if (room.features?.includes("Pet friendly")) {
-    return "Family Suite";
-  }
-
-  if (room.pricePerNight >= 350) {
-    return "Double Bed";
-  }
-
-  return "Single bed";
+function parseTypes(searchParams) {
+  return searchParams
+    .getAll("type")
+    .map((type) => type.trim())
+    .filter(Boolean);
 }
 
 function matchesPriceRange(price, range) {
@@ -49,15 +40,15 @@ function matchesPriceRange(price, range) {
 export default function AllRooms() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [openFilters, setOpenFilters] = useState(false);
-
-  const [selectedTypes, setSelectedTypes] = useState([]);
-
-  const [selectedPrice, setSelectedPrice] = useState("all");
-
-  const [sortBy, setSortBy] = useState("recommended");
-
   const destination = searchParams.get("destination") ?? "";
+
+  const selectedTypes = parseTypes(searchParams);
+
+  const selectedPrice = searchParams.get("price") ?? "all";
+
+  const sortBy = searchParams.get("sort") ?? DEFAULT_SORT;
+
+  const requestedPage = Number(searchParams.get("page"));
 
   const filteredRooms = useMemo(() => {
     const normalizedDestination = destination.trim().toLowerCase();
@@ -68,10 +59,8 @@ export default function AllRooms() {
         room.location.toLowerCase().includes(normalizedDestination) ||
         room.name.toLowerCase().includes(normalizedDestination);
 
-      const roomType = getRoomType(room);
-
       const matchesType =
-        selectedTypes.length === 0 || selectedTypes.includes(roomType);
+        selectedTypes.length === 0 || selectedTypes.includes(room.type);
 
       const matchesPrice = matchesPriceRange(room.pricePerNight, selectedPrice);
 
@@ -95,74 +84,129 @@ export default function AllRooms() {
     });
   }, [destination, selectedTypes, selectedPrice, sortBy]);
 
-  function handleDestinationChange(value) {
+  const totalPages = Math.ceil(filteredRooms.length / ROOMS_PER_PAGE);
+
+  const currentPage =
+    totalPages === 0
+      ? 1
+      : Math.min(
+          Math.max(Number.isInteger(requestedPage) ? requestedPage : 1, 1),
+          totalPages,
+        );
+
+  const currentRooms = useMemo(() => {
+    const startIndex = (currentPage - 1) * ROOMS_PER_PAGE;
+
+    return filteredRooms.slice(startIndex, startIndex + ROOMS_PER_PAGE);
+  }, [filteredRooms, currentPage]);
+
+  function updateParam(key, value) {
     const nextParams = new URLSearchParams(searchParams);
 
-    if (value.trim()) {
-      nextParams.set("destination", value);
+    if (!value || value === "all") {
+      nextParams.delete(key);
     } else {
-      nextParams.delete("destination");
+      nextParams.set(key, value);
     }
+
+    nextParams.delete("page");
 
     setSearchParams(nextParams, {
       replace: true,
     });
+  }
+
+  function handleDestinationChange(value) {
+    updateParam("destination", value.trim());
   }
 
   function handleTypeChange(type) {
-    setSelectedTypes((currentTypes) =>
-      currentTypes.includes(type)
-        ? currentTypes.filter((currentType) => currentType !== type)
-        : [...currentTypes, type],
-    );
-  }
-
-  function handleClearFilters() {
     const nextParams = new URLSearchParams(searchParams);
 
-    nextParams.delete("destination");
+    const currentTypes = parseTypes(searchParams);
+
+    const nextTypes = currentTypes.includes(type)
+      ? currentTypes.filter((currentType) => currentType !== type)
+      : [...currentTypes, type];
+
+    nextParams.delete("type");
+
+    nextTypes.forEach((roomType) => {
+      nextParams.append("type", roomType);
+    });
+
+    nextParams.delete("page");
 
     setSearchParams(nextParams, {
       replace: true,
     });
+  }
 
-    setSelectedTypes([]);
-    setSelectedPrice("all");
-    setSortBy("recommended");
+  function handlePageChange(page) {
+    if (page < 1 || page > totalPages || page === currentPage) {
+      return;
+    }
+
+    const nextParams = new URLSearchParams(searchParams);
+
+    if (page === 1) {
+      nextParams.delete("page");
+    } else {
+      nextParams.set("page", String(page));
+    }
+
+    setSearchParams(nextParams);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
+  function handleClearFilters() {
+    setSearchParams({}, { replace: true });
   }
 
   return (
-    <main className="page-container pt-32 pb-20 sm:pt-36 sm:pb-24 lg:pt-40 lg:pb-28">
-      <RoomsHeader
-        destination={destination}
-        resultCount={filteredRooms.length}
-        onDestinationChange={handleDestinationChange}
-      />
-
-      <div className="mt-10 flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-10 xl:gap-12">
-        <RoomFilters
-          selectedTypes={selectedTypes}
-          selectedPrice={selectedPrice}
-          sortBy={sortBy}
-          openFilters={openFilters}
-          onToggleFilters={() => setOpenFilters((current) => !current)}
-          onTypeChange={handleTypeChange}
-          onPriceChange={setSelectedPrice}
-          onSortChange={setSortBy}
-          onClear={handleClearFilters}
+    <main className="pt-28 pb-20 sm:pt-32 sm:pb-24 lg:pt-36 lg:pb-28">
+      <div className="page-container">
+        <RoomsHeader
+          destination={destination}
+          resultCount={filteredRooms.length}
+          onDestinationChange={handleDestinationChange}
         />
 
-        <div className="min-w-0 flex-1">
+        <div className="border-primary-900/[0.08] mt-8 border-t pt-6">
+          <RoomFilters
+            selectedTypes={selectedTypes}
+            selectedPrice={selectedPrice}
+            sortBy={sortBy}
+            onTypeChange={handleTypeChange}
+            onPriceChange={(value) => updateParam("price", value)}
+            onSortChange={(value) => updateParam("sort", value)}
+            onClear={handleClearFilters}
+          />
+        </div>
+
+        <section className="mt-8">
           {filteredRooms.length > 0 ? (
-            <div className="space-y-6">
-              {filteredRooms.map((room) => (
-                <RoomCard key={room.id} room={room} />
-              ))}
-            </div>
+            <>
+              <div className="grid gap-x-5 gap-y-9 sm:grid-cols-2 xl:grid-cols-3">
+                {currentRooms.map((room) => (
+                  <RoomCard key={room.id} room={room} />
+                ))}
+              </div>
+
+              <RoomsPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </>
           ) : (
             <EmptyRoomsState onClear={handleClearFilters} />
           )}
-        </div>
+        </section>
       </div>
     </main>
   );

@@ -1,6 +1,14 @@
 const BOOKINGS_STORAGE_KEY = "ogo-bookings";
 
+function canUseLocalStorage() {
+  return typeof window !== "undefined";
+}
+
 export function getBookings() {
+  if (!canUseLocalStorage()) {
+    return [];
+  }
+
   try {
     const storedBookings = localStorage.getItem(BOOKINGS_STORAGE_KEY);
 
@@ -42,10 +50,12 @@ export function createBooking({
 
   const currentBookings = getBookings();
 
-  localStorage.setItem(
-    BOOKINGS_STORAGE_KEY,
-    JSON.stringify([booking, ...currentBookings]),
-  );
+  if (canUseLocalStorage()) {
+    localStorage.setItem(
+      BOOKINGS_STORAGE_KEY,
+      JSON.stringify([booking, ...currentBookings]),
+    );
+  }
 
   return booking;
 }

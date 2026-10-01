@@ -6,60 +6,69 @@ export default function RoomsHeader({
   onDestinationChange,
 }) {
   return (
-    <div className="border-primary-900/[0.08] border-b pb-8 sm:pb-10">
-      <div className="flex flex-col gap-8 xl:flex-row xl:items-end xl:justify-between">
-        <div className="max-w-2xl">
-          <div className="flex items-center gap-3">
-            <span className="bg-accent-600 h-px w-8" />
+    <header>
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(380px,520px)] lg:items-end lg:gap-12">
+        <div>
+          <p className="section-eyebrow">Explore stays</p>
 
-            <p className="section-eyebrow">Find your stay</p>
-          </div>
-
-          <h1 className="font-display text-primary-950 mt-4 text-[42px] leading-[1.05] font-semibold tracking-[-0.035em] sm:text-5xl lg:text-[58px]">
-            Places worth
-            <span className="text-primary-600 block">checking into.</span>
+          <h1 className="font-display text-primary-950 mt-3 max-w-2xl text-[40px] leading-[1.04] font-semibold tracking-[-0.035em] sm:text-5xl lg:text-[56px]">
+            Find a stay that
+            <span className="text-primary-600 block">feels right.</span>
           </h1>
 
-          <p className="mt-5 max-w-xl text-sm leading-7 text-zinc-500 sm:text-base">
-            Browse distinctive stays and narrow the collection to find the right
-            place for your next journey.
+          <p className="mt-4 max-w-xl text-sm leading-7 text-zinc-500 sm:text-base">
+            Search the collection by destination, then refine the results by
+            room type, price, or rating.
           </p>
         </div>
 
-        <div className="w-full xl:max-w-[430px]">
+        <div>
           <label
             htmlFor="rooms-destination"
-            className="text-primary-800 mb-2 block text-[10px] font-bold tracking-[0.14em] uppercase"
+            className="text-primary-700 mb-2.5 block text-[10px] font-bold tracking-[0.14em] uppercase"
           >
-            Destination
+            Where do you want to stay?
           </label>
 
-          <div className="border-primary-900/10 focus-within:border-primary-700/30 flex min-h-14 items-center rounded-full border bg-white p-1.5 shadow-[0_8px_25px_rgba(20,40,32,0.05)] transition">
-            <HiOutlineLocationMarker
-              aria-hidden="true"
-              className="text-accent-600 ml-4 shrink-0 text-lg"
-            />
+          <div className="border-primary-900/[0.1] focus-within:border-primary-700/30 flex min-h-16 items-center rounded-[20px] border bg-white p-1.5 shadow-[0_10px_35px_rgba(20,40,32,0.06)] transition">
+            <span className="bg-primary-50 text-primary-700 ml-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+              <HiOutlineLocationMarker aria-hidden="true" className="text-lg" />
+            </span>
 
             <input
               id="rooms-destination"
               type="search"
               value={destination}
               onChange={(event) => onDestinationChange(event.target.value)}
-              placeholder="Search by destination"
+              placeholder="City, hotel or destination"
               autoComplete="off"
-              className="text-primary-950 min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placeholder:text-zinc-400"
+              className="text-primary-950 min-w-0 flex-1 bg-transparent px-3 text-sm font-medium outline-none placeholder:font-normal placeholder:text-zinc-400"
             />
 
-            <span className="bg-primary-900 flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white">
-              <HiOutlineSearch aria-hidden="true" className="text-base" />
+            <span className="bg-primary-950 flex h-12 w-12 shrink-0 items-center justify-center rounded-[15px] text-white">
+              <HiOutlineSearch aria-hidden="true" className="text-lg" />
             </span>
           </div>
 
-          <p aria-live="polite" className="mt-3 px-2 text-xs text-zinc-400">
-            {resultCount} {resultCount === 1 ? "stay" : "stays"} found
-          </p>
+          <div className="mt-3 flex items-center justify-between gap-4 px-1">
+            <p aria-live="polite" className="text-xs text-zinc-400">
+              <span className="text-primary-800 font-semibold">
+                {resultCount}
+              </span>{" "}
+              {resultCount === 1 ? "stay" : "stays"} available
+            </p>
+
+            {destination && (
+              <p className="max-w-[180px] truncate text-xs text-zinc-400">
+                Results for{" "}
+                <span className="text-primary-700 font-medium">
+                  {destination}
+                </span>
+              </p>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
