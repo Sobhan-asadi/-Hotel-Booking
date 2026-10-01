@@ -1,85 +1,173 @@
-import { useEffect } from "react";
-import { IoLocationOutline } from "react-icons/io5";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  HiOutlineCalendar,
+  HiOutlineLocationMarker,
+  HiOutlineUserGroup,
+} from "react-icons/hi";
+import { Link } from "react-router-dom";
 
-import hotels from "../../api/data";
 import Title from "../components/Title";
+import { getBookings } from "../utils/bookings";
+
+function formatDate(date) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(`${date}T00:00:00`));
+}
 
 export default function MyBookings() {
-  const { pathname } = useLocation();
+  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
+    setBookings(getBookings());
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, []);
 
   return (
-    <div className="px-4 py-28 md:px-16 md:pt-32 md:pb-36 lg:px-24 xl:px-32">
+    <main className="page-container pt-32 pb-20 sm:pt-36 sm:pb-24 lg:pt-40 lg:pb-28">
       <Title
-        title="My Bookings"
-        subTitle="Easily manage your past, current,and upcoming hotel reservations in one place. plan your trips seamlessly with just a few clicks"
         align="left"
+        title="My Bookings"
+        subTitle="Review your confirmed demo reservations and the details of your upcoming stays."
       />
 
-      <div className="mt-10 w-full max-w-6xl text-gray-800">
-        <div className="hidden w-full border-b border-gray-300 py-3 text-base font-medium md:grid md:grid-cols-[3fr_2fr_1fr]">
-          <div className="w-1/3">Hotels</div>
-          <div className="w-1/3">data & Timings</div>
-          <div className="w-1/3">Payment</div>
-        </div>
-      </div>
+      {bookings.length > 0 ? (
+        <div className="mt-10 space-y-5">
+          {bookings.map((booking) => (
+            <article
+              key={booking.id}
+              className="border-primary-900/[0.07] overflow-hidden rounded-[26px] border bg-white shadow-[0_8px_30px_rgba(20,40,32,0.05)]"
+            >
+              <div className="grid md:grid-cols-[220px_1fr] lg:grid-cols-[240px_1fr_auto]">
+                <Link
+                  to={`/rooms/${booking.roomId}`}
+                  className="bg-primary-100 relative min-h-[220px] overflow-hidden md:min-h-full"
+                >
+                  <img
+                    src={booking.image}
+                    alt={booking.roomName}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]"
+                  />
+                </Link>
 
-      {hotels.map((booking, index) => (
-        <div
-          className="grid w-full grid-cols-1 border-b border-gray-300 py-6 first:border-t md:grid-cols-[3fr_2fr_1fr]"
-          key={booking.id}
-        >
-          {/* Hotel Details */}
-          <div className="flex flex-col md:flex-row">
-            <img
-              src={booking.image}
-              alt={booking.name}
-              className="rounded-md object-cover shadow min-md:w-44"
-            />
-            <div className="flex flex-col gap-1.5 max-md:mt-3 min-md:ml-4">
-              <p className="font-playfair text-2xl">{booking.name}</p>
-              <span className="text-sm">{booking.description}</span>
-              <div className="flex items-center gap-1 text-sm text-gray-500">
-                <IoLocationOutline />
-                <span>{booking.location}</span>
+                <div className="p-5 sm:p-6 lg:p-7">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="bg-primary-100 text-primary-700 rounded-full px-3 py-1.5 text-[10px] font-bold tracking-[0.12em] uppercase">
+                      Confirmed
+                    </span>
+
+                    <span className="text-xs text-zinc-400">
+                      Demo reservation
+                    </span>
+                  </div>
+
+                  <Link
+                    to={`/rooms/${booking.roomId}`}
+                    className="mt-4 block w-fit"
+                  >
+                    <h2 className="font-display text-primary-950 hover:text-primary-600 text-2xl font-semibold tracking-[-0.025em] transition-colors sm:text-3xl">
+                      {booking.roomName}
+                    </h2>
+                  </Link>
+
+                  <div className="mt-3 flex items-center gap-2 text-sm text-zinc-500">
+                    <HiOutlineLocationMarker
+                      aria-hidden="true"
+                      className="text-accent-600 text-base"
+                    />
+                    <span>{booking.location}</span>
+                  </div>
+
+                  <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                    <BookingDetail
+                      icon={<HiOutlineCalendar />}
+                      label="Check in"
+                      value={formatDate(booking.checkIn)}
+                    />
+
+                    <BookingDetail
+                      icon={<HiOutlineCalendar />}
+                      label="Check out"
+                      value={formatDate(booking.checkOut)}
+                    />
+
+                    <BookingDetail
+                      icon={<HiOutlineUserGroup />}
+                      label="Guests"
+                      value={`${booking.guests} ${
+                        booking.guests === 1 ? "guest" : "guests"
+                      }`}
+                    />
+                  </div>
+                </div>
+
+                <div className="border-primary-900/[0.07] flex items-center border-t p-5 sm:p-6 md:col-span-2 lg:col-span-1 lg:border-t-0 lg:border-l lg:p-7">
+                  <div className="w-full lg:min-w-[180px]">
+                    <p className="text-[10px] font-bold tracking-[0.13em] text-zinc-400 uppercase">
+                      Stay total
+                    </p>
+
+                    <p className="text-primary-950 mt-2 text-3xl font-bold tracking-[-0.04em]">
+                      ${booking.totalPrice}
+                    </p>
+
+                    <p className="mt-1 text-xs text-zinc-400">
+                      {booking.nights}{" "}
+                      {booking.nights === 1 ? "night" : "nights"} · $
+                      {booking.pricePerNight}/night
+                    </p>
+
+                    <Link
+                      to={`/rooms/${booking.roomId}`}
+                      className="secondary-button mt-5 w-full"
+                    >
+                      View stay
+                    </Link>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          {/* Date timings */}
-          <div className="mt-3 flex flex-row gap-8 md:items-center md:gap-12">
-            <div className="">
-              <p className="">Check-In</p>
-              <p className="text-sm text-gray-600">
-                {new Date().toDateString()}
-              </p>
-            </div>
-
-            <div className="">
-              <p className="">Check-Out</p>
-              <p className="text-sm text-gray-600">
-                {new Date(
-                  new Date().setDate(new Date().getDate() + index),
-                ).toDateString()}
-              </p>
-            </div>
-          </div>
-
-          {/* Payent status */}
-          <div className="flex flex-col items-start justify-center pt-3">
-            <div className="flex items-center gap-2">
-              <div className={`h-3 w-3 rounded-full bg-red-500`}></div>
-              <p className="text-sm text-red-500">Unpaid</p>
-            </div>
-            <button className="mt-4 cursor-pointer rounded-full border border-gray-400 px-4 py-1.5 text-sm transition-all hover:bg-gray-50">
-              Pay Now
-            </button>
-          </div>
+            </article>
+          ))}
         </div>
-      ))}
+      ) : (
+        <div className="border-primary-900/15 mt-10 flex min-h-[380px] flex-col items-center justify-center rounded-[28px] border border-dashed bg-white/50 px-6 text-center">
+          <span className="bg-primary-100 text-primary-700 flex h-14 w-14 items-center justify-center rounded-full">
+            <HiOutlineCalendar aria-hidden="true" className="text-xl" />
+          </span>
+
+          <h2 className="font-display text-primary-950 mt-5 text-2xl font-semibold tracking-[-0.025em]">
+            No bookings yet
+          </h2>
+
+          <p className="mt-3 max-w-sm text-sm leading-6 text-zinc-500">
+            Explore the collection and reserve a stay to see your booking here.
+          </p>
+
+          <Link to="/rooms" className="primary-button mt-6">
+            Explore stays
+          </Link>
+        </div>
+      )}
+    </main>
+  );
+}
+
+function BookingDetail({ icon, label, value }) {
+  return (
+    <div className="flex gap-3">
+      <span className="bg-primary-50 text-primary-700 mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
+        {icon}
+      </span>
+
+      <div>
+        <p className="text-[10px] font-bold tracking-[0.12em] text-zinc-400 uppercase">
+          {label}
+        </p>
+
+        <p className="text-primary-950 mt-1 text-sm font-medium">{value}</p>
+      </div>
     </div>
   );
 }

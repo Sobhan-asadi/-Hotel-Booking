@@ -1,153 +1,198 @@
-const capitalCities = [
-  { id: 1, name: "Tehran" },
-  { id: 2, name: "Washington, D.C." },
-  { id: 3, name: "London" },
-  { id: 4, name: "Paris" },
-  { id: 5, name: "Tokyo" },
+import { useState } from "react";
+import {
+  HiOutlineCalendar,
+  HiOutlineLocationMarker,
+  HiOutlineSearch,
+  HiOutlineUserGroup,
+} from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
+
+const destinations = [
+  "Bali",
+  "Canada",
+  "Dubai",
+  "Hawaii",
+  "Maldives",
+  "Miami",
+  "New York",
+  "Paris",
+  "Rome",
+  "Switzerland",
 ];
 
+function getToday() {
+  const today = new Date();
+  const timezoneOffset = today.getTimezoneOffset() * 60_000;
+
+  return new Date(today.getTime() - timezoneOffset).toISOString().split("T")[0];
+}
+
 export default function BookingSearchForm() {
+  const navigate = useNavigate();
+
+  const [destination, setDestination] = useState("");
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const [guests, setGuests] = useState(1);
+  const [error, setError] = useState("");
+
+  const today = getToday();
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    if (!destination.trim()) {
+      setError("Choose a destination to start your search.");
+      return;
+    }
+
+    if (checkIn && checkOut && checkOut <= checkIn) {
+      setError("Check-out must be after check-in.");
+      return;
+    }
+
+    setError("");
+
+    const searchParams = new URLSearchParams();
+
+    searchParams.set("destination", destination.trim());
+
+    if (checkIn) {
+      searchParams.set("checkIn", checkIn);
+    }
+
+    if (checkOut) {
+      searchParams.set("checkOut", checkOut);
+    }
+
+    searchParams.set("guests", String(guests));
+
+    navigate(`/rooms?${searchParams.toString()}`);
+  }
+
   return (
-    <form className="my-8 flex flex-col gap-4 rounded-lg bg-white/90 px-6 py-4 text-gray-700 shadow-md max-md:mx-auto md:mt-20 md:flex-row md:flex-wrap md:items-end md:justify-between">
-      {/* Destination */}
-      <div className="flex w-full flex-col md:w-[22%]">
-        <label
-          htmlFor="destinationInput"
-          className="flex items-center gap-2 font-medium"
-        >
-          <svg
-            className="h-4 w-4 text-gray-800"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 10h16M8 14h8m-4-7V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
+    <div className="w-full max-w-[1180px]">
+      <form
+        onSubmit={handleSubmit}
+        className="rounded-[26px] border border-white/20 bg-[#faf9f6] p-2.5 shadow-[0_24px_70px_rgba(0,0,0,0.22)] sm:p-3 lg:rounded-full"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-[1.45fr_1fr_1fr_0.65fr_auto] lg:items-center">
+          <div className="px-4 py-4 sm:px-5 lg:px-6 lg:py-2">
+            <FieldLabel
+              htmlFor="destination"
+              icon={<HiOutlineLocationMarker />}
+            >
+              Destination
+            </FieldLabel>
+
+            <input
+              id="destination"
+              list="hotel-destinations"
+              type="text"
+              value={destination}
+              onChange={(event) => setDestination(event.target.value)}
+              placeholder="Where would you like to stay?"
+              autoComplete="off"
+              className="mt-2 w-full bg-transparent text-[15px] font-medium text-zinc-900 outline-none placeholder:font-normal placeholder:text-zinc-400"
             />
-          </svg>
-          Destination
-        </label>
-        <input
-          list="destinations"
-          id="destinationInput"
-          type="text"
-          className="mt-1.5 w-full rounded border border-gray-200 px-3 py-2 text-sm outline-none focus:border-gray-400"
-          placeholder="Type here"
-          required
-        />
-        <datalist id="destinations">
-          {capitalCities.map((city) => (
-            <option value={city.name} key={city.id} />
-          ))}
-        </datalist>
-      </div>
 
-      {/* Check in */}
-      <div className="flex w-full flex-col md:w-[18%]">
-        <label
-          htmlFor="checkIn"
-          className="flex items-center gap-2 font-medium"
-        >
-          <svg
-            className="h-4 w-4 text-gray-800"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 10h16M8 14h8m-4-7V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
+            <datalist id="hotel-destinations">
+              {destinations.map((destinationName) => (
+                <option key={destinationName} value={destinationName} />
+              ))}
+            </datalist>
+          </div>
+
+          <div className="border-t border-zinc-200 px-4 py-4 sm:px-5 lg:border-t-0 lg:border-l lg:px-6 lg:py-2">
+            <FieldLabel htmlFor="checkIn" icon={<HiOutlineCalendar />}>
+              Check in
+            </FieldLabel>
+
+            <input
+              id="checkIn"
+              type="date"
+              min={today}
+              value={checkIn}
+              onChange={(event) => {
+                const nextCheckIn = event.target.value;
+
+                setCheckIn(nextCheckIn);
+
+                if (checkOut && nextCheckIn && checkOut <= nextCheckIn) {
+                  setCheckOut("");
+                }
+              }}
+              className="mt-2 w-full bg-transparent text-[15px] font-medium text-zinc-700 outline-none"
             />
-          </svg>
-          Check in
-        </label>
-        <input
-          id="checkIn"
-          type="date"
-          className="mt-1.5 w-full rounded border border-gray-200 px-3 py-2 text-sm outline-none focus:border-gray-400"
-        />
-      </div>
+          </div>
 
-      {/* Check out */}
-      <div className="flex w-full flex-col md:w-[18%]">
-        <label
-          htmlFor="checkOut"
-          className="flex items-center gap-2 font-medium"
-        >
-          <svg
-            className="h-4 w-4 text-gray-800"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 10h16M8 14h8m-4-7V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
+          <div className="border-t border-zinc-200 px-4 py-4 sm:px-5 lg:border-t-0 lg:border-l lg:px-6 lg:py-2">
+            <FieldLabel htmlFor="checkOut" icon={<HiOutlineCalendar />}>
+              Check out
+            </FieldLabel>
+
+            <input
+              id="checkOut"
+              type="date"
+              min={checkIn || today}
+              value={checkOut}
+              onChange={(event) => setCheckOut(event.target.value)}
+              className="mt-2 w-full bg-transparent text-[15px] font-medium text-zinc-700 outline-none"
             />
-          </svg>
-          Check out
-        </label>
-        <input
-          id="checkOut"
-          type="date"
-          className="mt-1.5 w-full rounded border border-gray-200 px-3 py-2 text-sm outline-none focus:border-gray-400"
-        />
-      </div>
+          </div>
 
-      {/* Guests */}
-      <div className="flex w-full flex-col md:w-[15%]">
-        <label htmlFor="guests" className="font-medium">
-          Guests
-        </label>
-        <input
-          min={1}
-          max={4}
-          id="guests"
-          type="number"
-          className="mt-1.5 w-full rounded border border-gray-200 px-3 py-2 text-sm outline-none focus:border-gray-400"
-          placeholder="0"
-        />
-      </div>
+          <div className="border-t border-zinc-200 px-4 py-4 sm:px-5 lg:border-t-0 lg:border-l lg:px-6 lg:py-2">
+            <FieldLabel htmlFor="guests" icon={<HiOutlineUserGroup />}>
+              Guests
+            </FieldLabel>
 
-      {/* Search button */}
-      <button className="flex w-full items-center justify-center gap-2 rounded-md bg-black px-6 py-3 text-white transition hover:bg-gray-900 md:w-auto md:self-end md:py-2">
-        <svg
-          className="h-4 w-4 text-white"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="2"
-            d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
-          />
-        </svg>
-        <span>Search</span>
-      </button>
-    </form>
+            <input
+              id="guests"
+              type="number"
+              min="1"
+              max="8"
+              value={guests}
+              onChange={(event) =>
+                setGuests(
+                  Math.min(8, Math.max(1, Number(event.target.value) || 1)),
+                )
+              }
+              className="mt-2 w-full bg-transparent text-[15px] font-medium text-zinc-700 outline-none"
+            />
+          </div>
+
+          <div className="border-t border-zinc-200 p-2 lg:border-t-0 lg:pl-3">
+            <button
+              type="submit"
+              className="bg-primary-900 hover:bg-primary-700 flex min-h-14 w-full items-center justify-center gap-2.5 rounded-[18px] px-6 text-sm font-semibold whitespace-nowrap text-white transition duration-300 lg:h-[64px] lg:w-auto lg:min-w-[150px] lg:rounded-full"
+            >
+              <HiOutlineSearch aria-hidden="true" className="text-lg" />
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
+
+      {error && (
+        <p role="alert" className="mt-3 px-4 text-sm font-medium text-red-200">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function FieldLabel({ htmlFor, icon, children }) {
+  return (
+    <label
+      htmlFor={htmlFor}
+      className="text-primary-800 flex items-center gap-2 text-[11px] font-bold tracking-[0.13em] uppercase"
+    >
+      <span aria-hidden="true" className="text-accent-600 shrink-0 text-base">
+        {icon}
+      </span>
+
+      {children}
+    </label>
   );
 }

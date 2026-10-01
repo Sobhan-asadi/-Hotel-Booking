@@ -1,75 +1,159 @@
+import { HiArrowUp, HiOutlineLocationMarker } from "react-icons/hi";
+import { Link } from "react-router-dom";
+
+const exploreLinks = [
+  {
+    label: "Home",
+    to: "/",
+  },
+  {
+    label: "Explore stays",
+    to: "/rooms",
+  },
+  {
+    label: "My bookings",
+    to: "/my-bookings",
+  },
+];
+
+const experienceLinks = [
+  {
+    label: "Featured stays",
+    href: "/#featured-stays",
+  },
+  {
+    label: "Exclusive offers",
+    href: "/#exclusive-offers",
+  },
+  {
+    label: "Guest stories",
+    href: "/#guest-stories",
+  },
+];
+
 export default function Footer() {
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
   return (
-    <>
-      <footer className="w-full bg-white px-6 pt-10 text-sm text-slate-500 md:mt-12 md:px-16 lg:px-24 xl:px-32">
-        <div className="grid grid-cols-1 gap-14 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="sm:col-span-2 lg:col-span-1">
-            <a href="https://prebuiltui.com">
-              <img
-                className={`h-12 w-12 rounded-full object-center`}
-                src="/logo.png"
-                alt=""
-              />
-            </a>
-            <p className="mt-6 text-sm/7">
-              Experience comfort, elegance, and unforgettable stays with Ogo
-              Hotel — your gateway to world-class hospitality.
-            </p>
-          </div>
-          <div className="flex flex-col lg:items-center lg:justify-center">
-            <div className="flex flex-col space-y-2.5 text-sm">
-              <h2 className="mb-5 font-semibold text-gray-800">Company</h2>
-              <a className="transition hover:text-slate-600" href="#">
-                About us
-              </a>
-              <a className="transition hover:text-slate-600" href="#">
-                Careers
-                <span className="ml-2 rounded-md border bg-gray-500 px-2 py-1 text-xs text-white">
-                  We’re hiring!
+    <footer className="bg-primary-950 text-white">
+      <div className="page-container">
+        <div className="grid gap-12 py-14 sm:py-16 lg:grid-cols-[1.4fr_0.7fr_0.7fr] lg:gap-16 lg:py-20">
+          <div className="max-w-md">
+            <Link
+              to="/"
+              aria-label="Ogo home"
+              className="inline-flex items-center gap-3"
+            >
+              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10">
+                <span className="font-display text-accent-100 text-xl font-semibold italic">
+                  O
                 </span>
-              </a>
-              <a className="transition hover:text-slate-600" href="#">
-                Contact us
-              </a>
-              <a className="transition hover:text-slate-600" href="#">
-                Privacy policy
-              </a>
+              </span>
+
+              <div>
+                <p className="font-display text-xl leading-none font-semibold tracking-[-0.02em]">
+                  Ogo
+                </p>
+
+                <p className="mt-1.5 text-[9px] font-semibold tracking-[0.2em] text-white/40 uppercase">
+                  Curated stays
+                </p>
+              </div>
+            </Link>
+
+            <p className="mt-6 max-w-sm text-sm leading-7 text-white/50">
+              A curated collection of distinctive stays for travelers looking
+              for memorable places and remarkable journeys.
+            </p>
+
+            <div className="mt-6 flex items-center gap-2 text-xs text-white/40">
+              <HiOutlineLocationMarker
+                aria-hidden="true"
+                className="text-accent-300 text-base"
+              />
+
+              <span>Curated stays around the world</span>
             </div>
           </div>
+
           <div>
-            <h2 className="mb-5 font-semibold text-gray-800">
-              Subscribe to our newsletter
-            </h2>
-            <div className="max-w-sm space-y-6 text-sm">
-              <p>
-                The latest news, articles, and resources, sent to your inbox
-                weekly.
-              </p>
-              <div className="flex items-center justify-center gap-2 rounded-md bg-gray-200 p-2">
-                <input
-                  className="w-full max-w-64 rounded px-2 py-2 ring-gray-300 outline-none focus:ring-2"
-                  type="email"
-                  placeholder="Enter your email"
-                />
-                <button className="rounded bg-gray-700 px-4 py-2 text-white">
-                  Subscribe
-                </button>
-              </div>
-            </div>
+            <p className="text-accent-300 text-[11px] font-semibold tracking-[0.18em] uppercase">
+              Explore
+            </p>
+
+            <nav
+              aria-label="Footer explore navigation"
+              className="mt-6 flex flex-col items-start gap-4"
+            >
+              {exploreLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  to={link.to}
+                  className="text-sm text-white/55 transition-colors duration-300 hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          <div>
+            <p className="text-accent-300 text-[11px] font-semibold tracking-[0.18em] uppercase">
+              Discover
+            </p>
+
+            <nav
+              aria-label="Footer discovery navigation"
+              className="mt-6 flex flex-col items-start gap-4"
+            >
+              {experienceLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="text-sm text-white/55 transition-colors duration-300 hover:text-white"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
           </div>
         </div>
-        <p className="mt-6 border-t border-slate-200 py-4 text-center">
-          Copyright 2025 ©{" "}
-          <a
-            target="_blank"
-            className="mx-2 inline-block rounded-md border px-3 py-0.5"
-            href="https://github.com/Sobhan-asadi"
+
+        <div className="flex flex-col gap-5 border-t border-white/10 py-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs text-white/35">
+            © 2026 Ogo. Front-end portfolio project by{" "}
+            <a
+              href="https://github.com/Sobhan-asadi"
+              target="_blank"
+              rel="noreferrer"
+              className="text-white/60 transition-colors hover:text-white"
+            >
+              Sobhan Asadi
+            </a>
+            .
+          </p>
+
+          <button
+            type="button"
+            onClick={scrollToTop}
+            aria-label="Back to top"
+            className="group flex w-fit items-center gap-2.5 text-xs font-semibold text-white/50 transition-colors hover:text-white"
           >
-            Sobhan-github🙄
-          </a>
-          All Right Reserved.
-        </p>
-      </footer>
-    </>
+            Back to top
+            <span className="group-hover:border-accent-300 group-hover:bg-accent-300 group-hover:text-primary-950 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-all duration-300">
+              <HiArrowUp
+                aria-hidden="true"
+                className="transition-transform duration-300 group-hover:-translate-y-0.5"
+              />
+            </span>
+          </button>
+        </div>
+      </div>
+    </footer>
   );
 }

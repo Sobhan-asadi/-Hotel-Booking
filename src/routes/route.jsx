@@ -15,26 +15,49 @@ import ListRoomPage from "../pages/hotelOwnerPage/ListRoomPage";
 const routes = createBrowserRouter([
   {
     path: "/",
-    errorElement: <ErrorPage />,
     element: <LayoutPage />,
+    errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <HomePage /> },
-      { path: "rooms", element: <AllroomsPage /> },
-      { path: "/:name", element: <RoomDetails /> },
-      { path: "/:name/mybookings", element: <MyBookings /> },
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: "rooms",
+        element: <AllroomsPage />,
+      },
+      {
+        path: "rooms/:roomId",
+        element: <RoomDetails />,
+      },
+      {
+        path: "my-bookings",
+        element: <MyBookings />,
+      },
     ],
   },
-  // DashbordLayout
   {
-    path: "owner",
+    path: "/owner",
     element: <DashbordLayout />,
     children: [
-      { index: true, element: <Dashboard /> },
-      { path: "add-room", element: <AddRoomPage /> },
-      { path: "list-room", element: <ListRoomPage /> },
+      {
+        index: true,
+        element: <Dashboard />,
+      },
+      {
+        path: "add-room",
+        element: <AddRoomPage />,
+      },
+      {
+        path: "list-room",
+        element: <ListRoomPage />,
+      },
     ],
   },
-  { path: "*", element: <NotFound /> },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
 
 export default routes;

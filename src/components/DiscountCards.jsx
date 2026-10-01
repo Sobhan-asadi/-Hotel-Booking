@@ -1,37 +1,71 @@
-import { IoIosArrowRoundForward } from "react-icons/io";
+import { HiArrowRight } from "react-icons/hi";
+
 import { discountData } from "../../api/data";
 
 export default function DiscountCards() {
   return (
-    <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {discountData.map((item) => (
-        <div
+    <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {discountData.map((item, index) => (
+        <article
           key={item.id}
-          style={{
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.2)), url(${item.image})`,
-          }}
-          className="group relative flex h-64 flex-col justify-end rounded-2xl bg-cover bg-center p-6 text-white shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl"
+          className={`group relative overflow-hidden rounded-[28px] border border-white/10 ${
+            index === 0 ? "md:col-span-2 lg:col-span-1" : ""
+          }`}
         >
-          {/*  Discount  */}
-          <p className="absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-gray-800">
-            {item.priceoff}% OFF
-          </p>
+          <div className="relative min-h-[420px] sm:min-h-[460px]">
+            <img
+              src={item.image}
+              alt=""
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+            />
 
-          {/* text */}
-          <div>
-            <p className="font-playfair text-2xl font-semibold">{item.title}</p>
-            <p className="text-sm text-white/80">{item.description}</p>
-            <p className="mt-2 text-xs text-white/60">
-              Expires {item.expiryDate}
-            </p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/5" />
+
+            <div className="absolute inset-x-0 top-0 flex items-start justify-between p-5">
+              <span className="rounded-full border border-white/20 bg-black/20 px-3.5 py-2 text-[10px] font-semibold tracking-[0.12em] text-white uppercase backdrop-blur-md">
+                Special offer
+              </span>
+
+              <div className="bg-accent-200 text-primary-950 flex h-16 w-16 flex-col items-center justify-center rounded-full shadow-lg">
+                <span className="text-xl leading-none font-bold">
+                  {item.priceoff}%
+                </span>
+
+                <span className="mt-1 text-[9px] font-bold tracking-[0.12em] uppercase">
+                  Off
+                </span>
+              </div>
+            </div>
+
+            <div className="absolute right-0 bottom-0 left-0 p-6 sm:p-7">
+              <p className="text-accent-200 text-[10px] font-semibold tracking-[0.18em] uppercase">
+                Curated experience
+              </p>
+
+              <h3 className="font-display mt-3 max-w-[280px] text-3xl leading-[1.08] font-semibold tracking-[-0.025em] text-white">
+                {item.title}
+              </h3>
+
+              <p className="mt-3 max-w-[300px] text-sm leading-6 text-white/65">
+                {item.description}
+              </p>
+
+              <div className="mt-6 flex items-center justify-between border-t border-white/15 pt-5">
+                <span className="text-sm font-semibold text-white">
+                  Explore offer
+                </span>
+
+                <span className="group-hover:border-accent-200 group-hover:bg-accent-200 group-hover:text-primary-950 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all duration-300">
+                  <HiArrowRight
+                    aria-hidden="true"
+                    className="transition-transform duration-300 group-hover:translate-x-0.5"
+                  />
+                </span>
+              </div>
+            </div>
           </div>
-
-          {/* button */}
-          <button className="mt-4 flex cursor-pointer items-center justify-center gap-1 rounded-md bg-white/90 px-3 py-2 text-sm font-semibold text-gray-900 transition-all hover:bg-white">
-            View offers
-            <IoIosArrowRoundForward className="text-xl transition-transform group-hover:translate-x-1" />
-          </button>
-        </div>
+        </article>
       ))}
     </div>
   );

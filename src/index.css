@@ -1,18 +1,103 @@
-/** @format */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap");
 
-/*import Fonts  */
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap");
-
-/* tailwindcss */
 @import "tailwindcss";
 
-* {
-  font-family: Outfit;
+@theme {
+  --font-sans: "Outfit", sans-serif;
+  --font-display: "Playfair Display", serif;
+
+  --color-primary-50: #f2f6f4;
+  --color-primary-100: #dde8e3;
+  --color-primary-200: #bdd1c8;
+  --color-primary-300: #91b2a5;
+  --color-primary-400: #648f7f;
+  --color-primary-500: #477363;
+  --color-primary-600: #365b4e;
+  --color-primary-700: #2c493f;
+  --color-primary-800: #263c35;
+  --color-primary-900: #20332d;
+  --color-primary-950: #10201c;
+
+  --color-accent-50: #faf7f2;
+  --color-accent-100: #f2eadc;
+  --color-accent-200: #e5d3b9;
+  --color-accent-300: #d5b78f;
+  --color-accent-400: #c49a68;
+  --color-accent-500: #b58a52;
+  --color-accent-600: #9e713f;
+  --color-accent-700: #825735;
+  --color-accent-800: #6c4931;
+  --color-accent-900: #5b3e2c;
+
+  --color-surface: #f7f4ee;
+  --color-ink: #20201e;
 }
 
-@theme {
-  --font-playfair: Playfair !important;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-  --color-primary: #2563eb;
-  --color-secondary: #fbbf24;
+  body {
+    min-width: 320px;
+    margin: 0;
+    background: #f7f4ee;
+    color: #20201e;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  ::selection {
+    background: #dde8e3;
+    color: #17352f;
+  }
+}
+
+@layer components {
+  .page-container {
+    @apply mx-auto w-full max-w-[1440px] px-5 sm:px-7 lg:px-10 xl:px-14;
+  }
+
+  .section-eyebrow {
+    @apply text-accent-600 text-xs font-semibold tracking-[0.2em] uppercase;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    @apply text-ink text-3xl leading-[1.08] font-semibold tracking-[-0.025em] sm:text-4xl lg:text-5xl;
+  }
+
+  .section-description {
+    @apply mt-4 max-w-2xl text-sm leading-7 text-zinc-600 sm:text-base;
+  }
+
+  .primary-button {
+    @apply bg-primary-900 hover:bg-primary-700 inline-flex min-h-12 items-center justify-center rounded-full px-6 text-sm font-semibold text-white transition duration-300;
+  }
+
+  .secondary-button {
+    @apply border-primary-900/15 text-primary-900 hover:border-primary-900 hover:bg-primary-900 inline-flex min-h-12 items-center justify-center rounded-full border bg-transparent px-6 text-sm font-semibold transition duration-300 hover:text-white;
+  }
 }

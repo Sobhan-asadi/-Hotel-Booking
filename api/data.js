@@ -3,122 +3,196 @@ const hotels = [
     id: 1,
     name: "The Grand Resort",
     location: "Maldives",
+    type: "Luxury Room",
     rating: 4.9,
     pricePerNight: 450,
     image: "/images/hotel1.jpg",
+    images: [
+      "/images/hotel1.jpg",
+      "/images/hotel2.jpg",
+      "/images/hotel7.jpg",
+      "/images/hotel10.jpg",
+    ],
     tag: "Best Seller",
-    description: "Luxurious resort with beach access and spa",
-    features: ["Free WiFi", "Pool", "Breakfast included"]
+    description:
+      "A refined island retreat with direct beach access, peaceful surroundings and thoughtfully designed spaces.",
+    features: ["Free WiFi", "Pool", "Breakfast included", "Beach access"],
   },
   {
     id: 2,
     name: "Ocean View Hotel",
     location: "Bali",
+    type: "Double Bed",
     rating: 4.7,
     pricePerNight: 380,
     image: "/images/hotel2.jpg",
+    images: [
+      "/images/hotel2.jpg",
+      "/images/hotel7.jpg",
+      "/images/hotel5.jpg",
+      "/images/hotel1.jpg",
+    ],
     tag: "",
-    description: "Relaxing oceanfront rooms with balcony",
-    features: ["Free Parking", "Gym", "Pet friendly"]
+    description:
+      "A relaxed coastal stay with ocean views, comfortable rooms and easy access to Bali's tropical surroundings.",
+    features: ["Free Parking", "Gym", "Pet friendly", "Ocean view"],
   },
   {
     id: 3,
-    name: "Mountain Peak ",
+    name: "Mountain Peak",
     location: "Switzerland",
+    type: "Luxury Room",
     rating: 4.8,
     pricePerNight: 520,
     image: "/images/hotel3.jpg",
+    images: [
+      "/images/hotel3.jpg",
+      "/images/hotel9.jpg",
+      "/images/hotel6.jpg",
+      "/images/hotel8.jpg",
+    ],
     tag: "Best Seller",
-    description: "Scenic views with ski access and cozy fireplaces",
-    features: ["Ski pass", "Spa", "Restaurant"]
+    description:
+      "A peaceful alpine escape surrounded by mountain scenery, with warm interiors and easy access to outdoor experiences.",
+    features: ["Ski access", "Spa", "Restaurant", "Mountain view"],
   },
   {
     id: 4,
     name: "City Lights Hotel",
     location: "New York",
+    type: "Double Bed",
     rating: 4.5,
     pricePerNight: 300,
     image: "/images/hotel4.jpg",
+    images: [
+      "/images/hotel4.jpg",
+      "/images/hotel6.jpg",
+      "/images/hotel8.jpg",
+      "/images/hotel3.jpg",
+    ],
     tag: "New",
-    description: "Modern rooms in heart of the city",
-    features: ["Free WiFi", "Bar", "Gym"]
+    description:
+      "A contemporary city stay with comfortable interiors and a convenient location for exploring New York.",
+    features: ["Free WiFi", "Bar", "Gym", "City view"],
   },
   {
     id: 5,
-    name: "Beachid Inn",
+    name: "Beachside Inn",
     location: "Miami",
+    type: "Single bed",
     rating: 4.3,
     pricePerNight: 270,
     image: "/images/hotel5.jpg",
+    images: [
+      "/images/hotel5.jpg",
+      "/images/hotel2.jpg",
+      "/images/hotel7.jpg",
+      "/images/hotel1.jpg",
+    ],
     tag: "",
-    description: "Cozy rooms close to the beach",
-    features: ["Pool", "Free breakfast", "Parking"]
+    description:
+      "A laid-back stay near the coast with bright spaces and convenient access to Miami's beaches.",
+    features: ["Pool", "Breakfast included", "Parking", "Beach nearby"],
   },
   {
     id: 6,
     name: "Royal Palace",
     location: "Paris",
+    type: "Luxury Room",
     rating: 4.9,
     pricePerNight: 600,
     image: "/images/hotel6.jpg",
+    images: [
+      "/images/hotel6.jpg",
+      "/images/hotel8.jpg",
+      "/images/hotel4.jpg",
+      "/images/hotel3.jpg",
+    ],
     tag: "Best Seller",
-    description: "Elegant palace-style hotel with fine dining",
-    features: ["Spa", "Gym", "Concierge"]
+    description:
+      "An elegant Parisian stay combining refined interiors, attentive hospitality and a sophisticated city atmosphere.",
+    features: ["Spa", "Gym", "Concierge", "Restaurant"],
   },
   {
     id: 7,
-    name: "Sunny id Resort",
+    name: "Sunny Isle Resort",
     location: "Hawaii",
+    type: "Family Suite",
     rating: 4.6,
     pricePerNight: 420,
     image: "/images/hotel7.jpg",
+    images: [
+      "/images/hotel7.jpg",
+      "/images/hotel1.jpg",
+      "/images/hotel2.jpg",
+      "/images/hotel5.jpg",
+    ],
     tag: "",
-    description: "Beautiful resort with tropical gardens",
-    features: ["Pool", "Beach Access", "Free WiFi"]
+    description:
+      "A tropical resort surrounded by lush scenery, with relaxed spaces designed for an easy island escape.",
+    features: ["Pool", "Beach access", "Free WiFi", "Family friendly"],
   },
   {
     id: 8,
     name: "Historic Stay",
     location: "Rome",
+    type: "Family Suite",
     rating: 4.2,
     pricePerNight: 310,
     image: "/images/hotel8.jpg",
-    tag: "Best Seller",
-    description: "Classic architecture with modern amenities",
-    features: ["Free breakfast", "Parking", "Pet friendly"]
+    images: [
+      "/images/hotel8.jpg",
+      "/images/hotel6.jpg",
+      "/images/hotel4.jpg",
+      "/images/hotel3.jpg",
+    ],
+    tag: "",
+    description:
+      "A characterful stay inspired by Rome's historic atmosphere, combining classic details with modern comfort.",
+    features: [
+      "Breakfast included",
+      "Parking",
+      "Pet friendly",
+      "Historic district",
+    ],
   },
   {
     id: 9,
-    name: "Lakeid Hotel",
+    name: "Lakeside Hotel",
     location: "Canada",
+    type: "Double Bed",
     rating: 4.4,
     pricePerNight: 350,
     image: "/images/hotel9.jpg",
+    images: [
+      "/images/hotel9.jpg",
+      "/images/hotel3.jpg",
+      "/images/hotel7.jpg",
+      "/images/hotel1.jpg",
+    ],
     tag: "New",
-    description: "Peaceful lakeid view with boating",
-    features: ["Boating", "Free WiFi", "Gym"]
+    description:
+      "A calm lakeside retreat with scenic surroundings and comfortable spaces for a quiet Canadian escape.",
+    features: ["Lake view", "Free WiFi", "Gym", "Parking"],
   },
   {
     id: 10,
     name: "Desert Oasis",
     location: "Dubai",
+    type: "Luxury Room",
     rating: 4.7,
     pricePerNight: 480,
     image: "/images/hotel10.jpg",
+    images: [
+      "/images/hotel10.jpg",
+      "/images/hotel6.jpg",
+      "/images/hotel1.jpg",
+      "/images/hotel4.jpg",
+    ],
     tag: "",
-    description: "Luxurious stay with desert views",
-    features: ["Pool", "Spa", "Free Parking"]
-  },
-  {
-    id: 11,
-    name: "Desert Oasis",
-    location: "Dubai",
-    rating: 4.4,
-    pricePerNight: 480,
-    image: "/images/hotel3.jpg",
-    tag: "",
-    description: "Luxurious stay with desert views",
-    features: ["Pool", "Spa", "Free Parking"]
+    description:
+      "A modern luxury retreat with warm interiors, resort amenities and an atmosphere inspired by Dubai's desert landscape.",
+    features: ["Pool", "Spa", "Free Parking", "Restaurant"],
   },
 ];
 
@@ -126,28 +200,26 @@ export const discountData = [
   {
     id: 1,
     image: "/images/discount1.jpg",
-    priceoff: 30,
-    title: "Summer Collection",
-    description: "Trendy outfits for the sunny season.",
-    expiryDate: "Oct 31, 2025",
+    priceoff: 20,
+    title: "Island Escape",
+    description:
+      "Enjoy a more relaxed coastal getaway with selected island stays.",
   },
   {
     id: 2,
     image: "/images/discount2.jpg",
-    priceoff: 50,
-    title: "Tech Sale",
-    description: "Latest gadgets at half price.",
-    expiryDate: "Nov 10, 2025",
+    priceoff: 15,
+    title: "City Weekends",
+    description: "Discover selected city stays for a memorable weekend away.",
   },
   {
     id: 3,
     image: "/images/discount3.jpg",
     priceoff: 25,
-    title: "Home Essentials",
-    description: "Upgrade your living space with discounts.",
-    expiryDate: "Oct 25, 2025",
+    title: "Mountain Retreats",
+    description:
+      "Slow down with selected stays surrounded by remarkable scenery.",
   },
-
 ];
 
 export default hotels;

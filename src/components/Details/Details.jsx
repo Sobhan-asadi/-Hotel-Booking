@@ -1,44 +1,42 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 
-import { useLocation } from "react-router-dom";
 import hotels from "../../../api/data";
-import DetailsFoorm from "./DetailsFoorm";
-import ROOMADDRESS from "./ROOMADDRESS";
+import BookingPanel from "./BookingPanel";
 import RoomDetails from "./RoomDetails";
-import ROOMHIGHLIGHTS from "./ROOMHIGHLIGHTS";
-import ROOMIMAGES from "./ROOMIMAGES";
-import ROOMRAITING from "./ROOMRAITING";
+import RoomHighlights from "./RoomHighlights";
+import RoomImages from "./RoomImages";
 
 export default function Details() {
-  const [room, setRoom] = useState(null);
-
+  const { roomId } = useParams();
   const { pathname } = useLocation();
-  let { name } = useParams();
+
+  const room = hotels.find((hotel) => String(hotel.id) === roomId);
 
   useEffect(() => {
-    const room = hotels.filter((room) => room.name === name);
-    setRoom(room[0]);
-  }, [name]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({
+      top: 0,
+      behavior: "instant",
+    });
   }, [pathname]);
 
+  if (!room) {
+    return <Navigate to="/rooms" replace />;
+  }
+
   return (
-    <div className="px-4 py-28 md:px-16 md:py-35 lg:px-24 xl:px-32">
-      {/* Room Details */}
+    <main className="page-container pt-32 pb-20 sm:pt-36 sm:pb-24 lg:pt-40 lg:pb-28">
       <RoomDetails room={room} />
-      {/* ROOM RAITING */}
-      <ROOMRAITING room={room} />
-      {/* ROOM ADDRESS */}
-      <ROOMADDRESS room={room} />
-      {/* ROOM IMAGES */}
-      <ROOMIMAGES room={room} />
-      {/* ROOM HIGHLIGHTS */}
-      <ROOMHIGHLIGHTS room={room} />
-      {/* check in  */}
-      <DetailsFoorm />
-    </div>
+      <div className="mt-8 grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_390px] xl:gap-6">
+        <div className="min-w-0">
+          <RoomImages room={room} />
+        </div>
+
+        <div className="min-w-0 lg:sticky lg:top-28">
+          <BookingPanel room={room} />
+        </div>
+      </div>
+      <RoomHighlights room={room} />
+    </main>
   );
 }
