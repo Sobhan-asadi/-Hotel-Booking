@@ -53,6 +53,7 @@ export default function RoomFilters({
   selectedPrice,
   sortBy,
   onTypeChange,
+  onClearTypes,
   onPriceChange,
   onSortChange,
   onClear,
@@ -114,9 +115,8 @@ export default function RoomFilters({
         <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
           <button
             type="button"
-            onClick={() => {
-              selectedTypes.forEach((type) => onTypeChange(type));
-            }}
+            aria-pressed={selectedTypes.length === 0}
+            onClick={onClearTypes}
             className={`min-h-11 shrink-0 rounded-full border px-4 text-xs font-semibold transition ${
               selectedTypes.length === 0
                 ? "border-primary-900 bg-primary-900 text-white"

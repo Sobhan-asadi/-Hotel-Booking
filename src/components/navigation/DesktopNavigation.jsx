@@ -11,6 +11,14 @@ const navLinks = [
     name: "Stays",
     path: "/rooms",
   },
+  {
+    name: "Experiences",
+    path: "/experiences",
+  },
+  {
+    name: "About",
+    path: "/about",
+  },
 ];
 
 export default function DesktopNavigation({
@@ -47,17 +55,6 @@ export default function DesktopNavigation({
             {link.name}
           </NavLink>
         ))}
-
-        <a
-          href="/#experiences"
-          className={`${linkBaseClass} ${inactiveLinkClass}`}
-        >
-          Experiences
-        </a>
-
-        <a href="/#about" className={`${linkBaseClass} ${inactiveLinkClass}`}>
-          About
-        </a>
       </div>
 
       <div className="hidden items-center gap-3 md:flex">

@@ -142,6 +142,17 @@ export default function AllRooms() {
     });
   }
 
+  function handleClearTypes() {
+    const nextParams = new URLSearchParams(searchParams);
+
+    nextParams.delete("type");
+    nextParams.delete("page");
+
+    setSearchParams(nextParams, {
+      replace: true,
+    });
+  }
+
   function handlePageChange(page) {
     if (page < 1 || page > totalPages || page === currentPage) {
       return;
@@ -182,6 +193,7 @@ export default function AllRooms() {
             selectedPrice={selectedPrice}
             sortBy={sortBy}
             onTypeChange={handleTypeChange}
+            onClearTypes={handleClearTypes}
             onPriceChange={(value) => updateParam("price", value)}
             onSortChange={(value) => updateParam("sort", value)}
             onClear={handleClearFilters}

@@ -1,4 +1,4 @@
-import { HiArrowRight, HiOutlineCalendar } from "react-icons/hi";
+import { HiOutlineCalendar } from "react-icons/hi";
 
 const bookings = [
   {
@@ -61,28 +61,18 @@ function BookingStatus({ status }) {
 export default function RecentBookings() {
   return (
     <section className="border-primary-900/[0.07] overflow-hidden rounded-[24px] border bg-white shadow-[0_8px_30px_rgba(20,40,32,0.035)]">
-      <div className="border-primary-900/[0.07] flex flex-col gap-4 border-b px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-        <div>
-          <p className="text-accent-700 text-[10px] font-bold tracking-[0.14em] uppercase">
-            Reservations
-          </p>
+      <div className="border-primary-900/[0.07] border-b px-5 py-5 sm:px-6">
+        <p className="text-accent-700 text-[10px] font-bold tracking-[0.14em] uppercase">
+          Reservations
+        </p>
 
-          <h2 className="text-primary-950 mt-1.5 text-lg font-semibold tracking-[-0.02em]">
-            Recent bookings
-          </h2>
+        <h2 className="text-primary-950 mt-1.5 text-lg font-semibold tracking-[-0.02em]">
+          Recent bookings
+        </h2>
 
-          <p className="mt-1 text-xs text-zinc-400">
-            Latest demo reservation activity
-          </p>
-        </div>
-
-        <button
-          type="button"
-          className="text-primary-700 hover:text-primary-950 flex w-fit items-center gap-2 text-xs font-semibold transition-colors"
-        >
-          View all
-          <HiArrowRight aria-hidden="true" className="text-sm" />
-        </button>
+        <p className="mt-1 text-xs text-zinc-400">
+          Latest demo reservation activity
+        </p>
       </div>
 
       <div className="hidden overflow-x-auto md:block">
